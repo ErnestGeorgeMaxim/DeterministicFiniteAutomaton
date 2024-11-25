@@ -50,9 +50,10 @@ public class PostFixConverter {
                 char next = regex.charAt(i + 1);
                 if ((Character.isLetterOrDigit(current) && Character.isLetterOrDigit(next)) ||
                         (current == ')' && Character.isLetterOrDigit(next)) ||
-                        (current == '*' && Character.isLetterOrDigit(next)) ||
-                        (current == ')' && next == '(') ||
-                        (current == '*' && next == '(')) {
+                        (current == '*' && Character.isLetterOrDigit(next) ||
+                        next == '('))
+                {
+
                     result.append('.');
                 }
             }

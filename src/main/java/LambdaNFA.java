@@ -62,6 +62,7 @@ public class LambdaNFA {
 
     public DeterministicFiniteAutomatum convertToDFA() {
         DeterministicFiniteAutomatum dfa = new DeterministicFiniteAutomatum();
+        State.resetId();
         Map<Set<State>, State> dfaStateMap = new HashMap<>();
         Set<State> initialNFAStates = lambdaClosure(Collections.singleton(initialState));
         State dfaInitialState = new State();

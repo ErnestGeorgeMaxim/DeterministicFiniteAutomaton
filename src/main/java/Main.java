@@ -5,15 +5,9 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Introduceți calea către fișierul care conține expresia regulată:");
-        String filePath = scanner.nextLine();
 
-        // Citim expresia regulată din fișier
+        String filePath = "src/main/java/Regex.txt";
         String regex = readRegexFromFile(filePath);
-        if (regex == null || regex.isEmpty()) {
-            System.err.println("Eroare: Fișierul nu conține o expresie regulată validă.");
-            return;
-        }
 
         try {
             // Generăm AFD-ul corespunzător
