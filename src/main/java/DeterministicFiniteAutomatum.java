@@ -1,5 +1,8 @@
+import lombok.Getter;
+
 import java.util.*;
 
+@Getter
 public class DeterministicFiniteAutomatum {
     private Set<State> states;
     private Set<Character> alphabet;
@@ -13,6 +16,7 @@ public class DeterministicFiniteAutomatum {
         transitions = new HashMap<>();
         finalState = new HashSet<>();
     }
+
 
     public void setInitialState(State state) {
         state.setStartNode(true);
