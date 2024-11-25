@@ -4,7 +4,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class State {
-    private static int nextId = 0;
+    private static int nextId = 0; // ID unic pentru fiecare stare
     private int id;
     private boolean isStartNode;
     private boolean isEndNode;
@@ -13,6 +13,10 @@ public class State {
         this.id = nextId++;
         this.isStartNode = false;
         this.isEndNode = false;
+    }
+
+    public static void resetId() {
+        nextId = 0;
     }
 
     @Override

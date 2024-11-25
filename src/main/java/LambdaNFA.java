@@ -1,11 +1,15 @@
+import lombok.Getter;
+
 import java.util.*;
+
+@Getter
 public class LambdaNFA {
     private Set<State> states;
-    private Set<Character>alphabet;
-    private Map<State,Map<Character,Set<State>>>transitions;
-    private Map<State,Set<State>>lambdaTransitions;
+    private Set<Character> alphabet;
+    private Map<State, Map<Character, Set<State>>> transitions;
+    private Map<State, Set<State>> lambdaTransitions;
     private State initialState;
-    private Set<State>finalStates;
+    private Set<State> finalStates;
 
     public LambdaNFA() {
         states = new HashSet<>();
@@ -19,34 +23,35 @@ public class LambdaNFA {
         states.add(state);
     }
 
-    public void setStartNode(State state) {
+    public void setInitialState(State state) {
         state.setStartNode(true);
         this.initialState = state;
     }
 
-    public void addFinalNode(State state) {
+    public void addFinalState(State state) {
         state.setEndNode(true);
         finalStates.add(state);
     }
 
-    public void addTransition(State from,Character symbol, State to) {
-        if(symbol!=null)alphabet.add(symbol);
+    public void addTransition(State from, Character symbol, State to) {
+        if (symbol != null) {
+            alphabet.add(symbol);
+        }
         transitions.computeIfAbsent(from, k -> new HashMap<>()).computeIfAbsent(symbol, k -> new HashSet<>()).add(to);
-
     }
 
     public void addLambdaTransition(State from, State to) {
         lambdaTransitions.computeIfAbsent(from, k -> new HashSet<>()).add(to);
     }
 
-    private Set<State>lambdaClosure(Set<State> states) {
+    private Set<State> lambdaClosure(Set<State> states) {
         Set<State> closure = new HashSet<>(states);
         Deque<State> stack = new ArrayDeque<>(states);
         while (!stack.isEmpty()) {
             State current = stack.pop();
-            Set<State>lambdaStates = lambdaTransitions.getOrDefault(current, Collections.emptySet());
-            for(State next: lambdaStates) {
-                if(!closure.contains(next)) {
+            Set<State> lambdaStates = lambdaTransitions.getOrDefault(current, Collections.emptySet());
+            for (State next : lambdaStates) {
+                if (!closure.contains(next)) {
                     closure.add(next);
                     stack.push(next);
                 }
@@ -80,7 +85,6 @@ public class LambdaNFA {
                     Set<State> transitions = this.transitions
                             .getOrDefault(nfaState, Collections.emptyMap())
                             .getOrDefault(symbol, Collections.emptySet());
-
                     for (State transitionState : transitions) {
                         nextNFAStates.addAll(lambdaClosure(Collections.singleton(transitionState)));
                     }
@@ -104,6 +108,15 @@ public class LambdaNFA {
         }
 
         return dfa;
+    }
+
+    public State[] getFinalStates() {
+        return this.finalStates.toArray(new State[0]);
+    }
+
+
+    public State[] getStates() {
+        return states.toArray(new State[0]);
     }
 
 }

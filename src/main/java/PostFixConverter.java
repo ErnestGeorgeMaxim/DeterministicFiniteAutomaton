@@ -1,4 +1,5 @@
 import java.util.*;
+
 public class PostFixConverter {
     private static int precedence(char op) {
         switch (op) {
@@ -23,9 +24,7 @@ public class PostFixConverter {
                 while (!operators.isEmpty() && operators.peek() != '(') {
                     output.append(operators.pop());
                 }
-                if (!operators.isEmpty() && operators.peek() == '(') {
-                    operators.pop();
-                }
+                operators.pop();
             } else if (".|*".indexOf(c) != -1) {
                 while (!operators.isEmpty() && precedence(operators.peek()) >= precedence(c)) {
                     output.append(operators.pop());
@@ -59,6 +58,10 @@ public class PostFixConverter {
             }
         }
         return result.toString();
+    }
 
+    public static DeterministicFiniteAutomatum convertToDFA(String regex) {
+        LambdaNFA nfa = RegexToNFAConverter.convertToNFA(regex); // Vei implementa RegexToNFAConverter
+        return nfa.convertToDFA();
     }
 }
