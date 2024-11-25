@@ -42,8 +42,13 @@ public class DeterministicFiniteAutomatum {
             return false;
         }
         for (State state : states) {
+            Map<Character, State> stateTransitions = transitions.get(state);
+            if (stateTransitions == null) {
+                System.err.println("Lipsesc tranziții pentru starea " + state);
+                return false;
+            }
             for (Character symbol : alphabet) {
-                if (!transitions.containsKey(state) || !transitions.get(state).containsKey(symbol)) {
+                if (!stateTransitions.containsKey(symbol)) {
                     System.err.println("Lipsesc tranziții pentru starea " + state + " și simbolul " + symbol);
                     return false;
                 }
@@ -51,6 +56,7 @@ public class DeterministicFiniteAutomatum {
         }
         return true;
     }
+
 
     public void printAutomaton() {
         System.out.println("Automatul finit determinist:");
