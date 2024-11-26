@@ -5,7 +5,6 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-
         String filePath = "src/main/java/Regex.txt";
         String regex = readRegexFromFile(filePath);
 
