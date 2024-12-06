@@ -69,7 +69,8 @@ public class LambdaNFA {
         dfa.setInitialState(dfaInitialState);
         dfaStateMap.put(initialNFAStates, dfaInitialState);
 
-        if (initialNFAStates.stream().anyMatch(State::isEndNode)) {
+        // Verificăm dacă starea inițială conține vreo stare finală
+        if (!Collections.disjoint(initialNFAStates, finalStates)) {
             dfa.addFinalState(dfaInitialState);
         }
 
@@ -99,7 +100,9 @@ public class LambdaNFA {
                     dfaStateMap.put(nextNFAStates, nextDFAState);
                     unmarkedStates.add(nextNFAStates);
 
-                    if (nextNFAStates.stream().anyMatch(State::isEndNode)) {
+                    // Verificăm dacă noua stare DFA ar trebui să fie finală
+                    // O stare DFA este finală dacă mulțimea sa de stări NFA conține cel puțin o stare finală
+                    if (!Collections.disjoint(nextNFAStates, finalStates)) {
                         dfa.addFinalState(nextDFAState);
                     }
                 }
