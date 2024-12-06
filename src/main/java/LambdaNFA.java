@@ -112,15 +112,4 @@ public class LambdaNFA {
         }
 
         return dfa;
-    }
-
-    public State[] getFinalStates() {
-        return this.finalStates.toArray(new State[0]);
-    }
-
-
-    public State[] getStates() {
-        return states.toArray(new State[0]);
-    }
-
-}
+    }}

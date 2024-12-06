@@ -9,13 +9,12 @@ public class Main {
         String regex = readRegexFromFile(filePath);
 
         try {
-            // Generăm AFD-ul corespunzător
+
             DeterministicFiniteAutomatum dfa = PostFixConverter.convertToDFA(regex);
             System.out.println("Automatul finit determinist a fost generat cu succes!");
 
             boolean running = true;
             while (running) {
-                // Afișăm meniul
                 System.out.println("\nMeniu:");
                 System.out.println("1. Afișare expresie regulată");
                 System.out.println("2. Afișare automat finit determinist (în consolă și în fișier)");
@@ -24,16 +23,14 @@ public class Main {
                 System.out.print("Alegerea dvs.: ");
 
                 int choice = scanner.nextInt();
-                scanner.nextLine(); // Consumăm newline-ul rămas
+                scanner.nextLine();
 
                 switch (choice) {
                     case 1:
-                        // Afișăm expresia regulată
                         System.out.println("Expresia regulată este: " + regex);
                         break;
 
                     case 2:
-                        // Afișăm automatul în consolă și salvăm în fișier
                         System.out.println("\nAutomatul finit determinist:");
                         dfa.printAutomaton();
 
@@ -43,7 +40,6 @@ public class Main {
                         break;
 
                     case 3:
-                        // Verificăm un cuvânt introdus de utilizator
                         System.out.print("Introduceți un cuvânt pentru verificare: ");
                         String word = scanner.nextLine();
                         boolean accepted = dfa.checkWord(word);
@@ -52,7 +48,6 @@ public class Main {
                         break;
 
                     case 4:
-                        // Ieșim din aplicație
                         System.out.println("La revedere!");
                         running = false;
                         break;
@@ -66,7 +61,6 @@ public class Main {
         }
     }
 
-    // Funcție pentru citirea expresiei regulate dintr-un fișier
     private static String readRegexFromFile(String filePath) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             return reader.readLine().trim();
@@ -76,7 +70,6 @@ public class Main {
         }
     }
 
-    // Funcție pentru salvarea unui AFD într-un fișier
     private static void saveAutomatonToFile(DeterministicFiniteAutomatum dfa, String filePath) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
             writer.println("Automatul finit determinist:");

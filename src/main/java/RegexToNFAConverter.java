@@ -1,7 +1,6 @@
 import java.util.*;
 
 public class RegexToNFAConverter {
-    // Metodă pentru a converti o expresie regulată într-un Lambda-NFA
     public static LambdaNFA convertToNFA(String regex) {
         // Pas 1: Convertim expresia regulată din infix în postfix (folosind PostFixConverter)
         String postfixRegex = PostFixConverter.infixToPostfix(regex);
@@ -55,31 +54,32 @@ public class RegexToNFAConverter {
         return nfa;
     }
 
-    private static LambdaNFA applyKleeneStar(LambdaNFA nfa) {
-        // Creează un NFA pentru operatorul * (Kleene Star)
-        LambdaNFA result = new LambdaNFA();
-        State newStart = new State();
-        State newEnd = new State();
 
-        result.addState(newStart);
-        result.addState(newEnd);
-        result.setInitialState(newStart);
-        result.addFinalState(newEnd);
+private static LambdaNFA applyKleeneStar(LambdaNFA nfa) {
+    LambdaNFA result = new LambdaNFA();
+    State start = new State();
+    State end = new State();
 
-        // Adăugăm tranziții lambda
-        result.addLambdaTransition(newStart, nfa.getInitialState());
-        result.addLambdaTransition(newStart, newEnd);
-        for (State finalState : nfa.getFinalStates()) {
-            result.addLambdaTransition(finalState, newEnd);
-            result.addLambdaTransition(finalState, nfa.getInitialState());
-        }
+    result.addState(start);
+    result.addState(end);
+    result.setInitialState(start);
+    result.addFinalState(end);
 
-        // Copiem toate stările și tranzițiile din NFA-ul original
-        copyStatesAndTransitions(nfa, result);
+    // Copy all states and transitions from original NFA
+    copyStatesAndTransitions(nfa, result);
 
-        return result;
+    // Add lambda transitions for the Kleene star operation
+    result.addLambdaTransition(start, nfa.getInitialState());  // Enter the loop
+    result.addLambdaTransition(start, end);  // Skip the loop entirely
+
+    // Add transitions from final states
+    for (State finalState : nfa.getFinalStates()) {
+        result.addLambdaTransition(finalState, nfa.getInitialState());  // Repeat
+        result.addLambdaTransition(finalState, end);  // Exit loop
     }
 
+    return result;
+}
     private static LambdaNFA applyUnion(LambdaNFA nfa1, LambdaNFA nfa2) {
         // Creează un NFA pentru operatorul | (sau)
         LambdaNFA result = new LambdaNFA();
@@ -109,10 +109,7 @@ public class RegexToNFAConverter {
     }
 
     private static LambdaNFA applyConcatenation(LambdaNFA nfa1, LambdaNFA nfa2) {
-        // Creează un NFA pentru operatorul . (concatenare)
         LambdaNFA result = new LambdaNFA();
-
-        // Copiem toate stările și tranzițiile din primul NFA
         copyStatesAndTransitions(nfa1, result);
 
         // Adăugăm tranziții lambda de la stările finale ale primului NFA
@@ -121,7 +118,6 @@ public class RegexToNFAConverter {
             result.addLambdaTransition(finalState, nfa2.getInitialState());
         }
 
-        // Copiem toate stările și tranzițiile din al doilea NFA
         copyStatesAndTransitions(nfa2, result);
 
         // Starea inițială a rezultatului este cea a primului NFA
