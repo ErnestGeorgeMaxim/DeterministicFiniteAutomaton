@@ -31,6 +31,7 @@ public class Main {
                         break;
 
                     case 2:
+
                         System.out.println("\nAutomatul finit determinist:");
                         dfa.printAutomaton();
 
@@ -48,7 +49,7 @@ public class Main {
                         break;
 
                     case 4:
-                        System.out.println("La revedere!");
+                        System.out.println("Va urez o zi!");
                         running = false;
                         break;
 

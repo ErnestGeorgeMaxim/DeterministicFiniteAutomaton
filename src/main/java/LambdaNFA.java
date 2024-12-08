@@ -46,14 +46,14 @@ public class LambdaNFA {
 
     private Set<State> lambdaClosure(Set<State> states) {
         Set<State> closure = new HashSet<>(states);
-        Deque<State> stack = new ArrayDeque<>(states);
-        while (!stack.isEmpty()) {
-            State current = stack.pop();
+        Queue<State> queue = new LinkedList<>(states);
+        while (!queue.isEmpty()) {
+            State current = queue.poll();
             Set<State> lambdaStates = lambdaTransitions.getOrDefault(current, Collections.emptySet());
             for (State next : lambdaStates) {
                 if (!closure.contains(next)) {
                     closure.add(next);
-                    stack.push(next);
+                    queue.offer(next);
                 }
             }
         }
@@ -75,7 +75,7 @@ public class LambdaNFA {
         }
 
         Queue<Set<State>> unmarkedStates = new LinkedList<>();
-        unmarkedStates.add(initialNFAStates);
+        unmarkedStates.offer(initialNFAStates);
 
         while (!unmarkedStates.isEmpty()) {
             Set<State> currentNFAStates = unmarkedStates.poll();
@@ -98,7 +98,7 @@ public class LambdaNFA {
                 if (nextDFAState == null) {
                     nextDFAState = new State();
                     dfaStateMap.put(nextNFAStates, nextDFAState);
-                    unmarkedStates.add(nextNFAStates);
+                    unmarkedStates.offer(nextNFAStates);
 
                     // Verificăm dacă noua stare DFA ar trebui să fie finală
                     // O stare DFA este finală dacă mulțimea sa de stări NFA conține cel puțin o stare finală
