@@ -13,11 +13,11 @@ This project provides a robust and flexible library for working with Determinist
 ## Installation
 1. Clone the repository:
    ```
-   git clone https://github.com/ErnestGeorgeMaxim/DeterministicFiniteAutomatum.git
+   git clone https://github.com/ErnestGeorgeMaxim/DeterministicFiniteAutomaton.git
    ```
 2. Navigate to the project directory:
    ```
-   cd DeterministicFiniteAutomatum
+   cd DeterministicFiniteAutomaton
    ```
 3. Build the project using Maven:
    ```
@@ -26,7 +26,7 @@ This project provides a robust and flexible library for working with Determinist
 
 ## Project Structure
 ```
-DeterministicFiniteAutomatum/
+DeterministicFiniteAutomaton/
 ├── src/
 │   └── main/
 │       └── java/
